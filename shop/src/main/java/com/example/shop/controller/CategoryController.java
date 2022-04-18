@@ -1,8 +1,12 @@
 package com.example.shop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.shop.exception.CategoryException;
@@ -62,5 +67,19 @@ public class CategoryController {
 		List<Category> category = categoryRepository.findAll();
 		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
+	
+	@GetMapping("/categories")
+	public List<Category> getAllCatgoryLimit(@RequestParam("page") Integer pageNo)
+    {
+        Pageable paging = PageRequest.of(pageNo, 5);
+ 
+        Page<Category> pagedResult = categoryRepository.findAll(paging);
+         
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Category>();
+        }
+    }
 
 }
