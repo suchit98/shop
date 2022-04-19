@@ -71,15 +71,16 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/products/{di}")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("di") long id) {
+	public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("di") long id) {
 		productRepository.deleteById((int) id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping("/products")
-	public List<Product> getAllProductLimit(@RequestParam("page") Integer pageNo)
+	@GetMapping("/productsPage/{pageNo}")
+	public List<Product> getAllProductLimit( @PathVariable("pageNo") int pageNo)
     {
-        Pageable paging = PageRequest.of(pageNo, 5);
+		System.out.println(pageNo);
+        Pageable paging = PageRequest.of(pageNo , 5);
  
         Page<Product> pagedResult = productRepository.findAll(paging);
          
@@ -89,4 +90,7 @@ public class ProductController {
             return new ArrayList<Product>();
         }
     }
+	
+	
 }
+
