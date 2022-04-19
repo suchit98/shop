@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.shop.exception.CategoryException;
@@ -68,8 +67,8 @@ public class CategoryController {
 		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 	
-	@GetMapping("/categories")
-	public List<Category> getAllCatgoryLimit(@RequestParam("page") Integer pageNo)
+	@GetMapping("/categoryPage/{pageNo}")
+	public List<Category> getAllCatgoryLimit(@PathVariable("pageNo") int pageNo)
     {
         Pageable paging = PageRequest.of(pageNo, 5);
  
