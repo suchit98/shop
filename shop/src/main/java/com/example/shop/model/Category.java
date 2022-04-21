@@ -27,19 +27,6 @@ public class Category implements Serializable {
 	@Column
 	private String categoryName;
 
-	@ManyToOne
-	@JoinColumn(name = "productId", nullable = false)
-	private Product product;
-
-	@JsonBackReference
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
 	public Integer getCategoryId() {
 		return categoryId;
 	}
