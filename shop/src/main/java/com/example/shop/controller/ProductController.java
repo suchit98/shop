@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.shop.exception.ProductException;
+import com.example.shop.model.Category;
 import com.example.shop.model.Product;
 import com.example.shop.repository.ProductRepository;
 
@@ -29,6 +31,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	RestTemplate restTemplate;
 
 	@GetMapping("/products/")
 	public ResponseEntity<List<Product>> getAllProducts() {
@@ -51,6 +56,8 @@ public class ProductController {
 	@PostMapping("/products")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		Product productAdded = productRepository.save(product);
+//		Category cat = restTemplate.postForObject("http://localhost:8080/api/categories", product.getCategory(), Category.class);
+//		productAdded.setCategory(cat);
 		if (productAdded == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

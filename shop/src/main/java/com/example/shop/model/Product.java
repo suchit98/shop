@@ -8,9 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -39,8 +42,17 @@ public class Product implements Serializable {
 	@Column
 	private int productCount;
 
-	@OneToMany(mappedBy = "product")
-	private Set<Category> category;
+	@ManyToOne
+	@JoinColumn(name = "categoryId", nullable = false)
+	private Category category;
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public Integer getProductId() {
 		return productId;
@@ -88,15 +100,6 @@ public class Product implements Serializable {
 
 	public void setProductCount(int productCount) {
 		this.productCount = productCount;
-	}
-
-	@JsonManagedReference
-	public Set<Category> getCategory() {
-		return category;
-	}
-
-	public void setCategory(Set<Category> category) {
-		this.category = category;
 	}
 
 }
